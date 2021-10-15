@@ -1,6 +1,8 @@
 const attack = function () { console.log(this.name + ' Fight...') }
+const arenas = document.querySelector('.arenas');
 
-const alex = {
+const player1 = {
+  player: 1,
   name: 'SCORPION',
   hp: 85,
   img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
@@ -8,7 +10,8 @@ const alex = {
   attack: attack,
 }
 
-const mike = {
+const player2 = {
+  player: 2,
   name: 'SUB-ZERO',
   hp: 90,
   img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
@@ -16,25 +19,26 @@ const mike = {
   attack: attack,
 }
 
-function createPlayer(playerClass, playerObj) {
-  const arenas = document.querySelector('.arenas');
+function createElement(tag, className) {
+  const el = document.createElement(tag);
+  if(className) {
+    el.classList.add(className);
+  }
 
-  const player = document.createElement('div');
-  const progressBar = document.createElement('div');
-  const character = document.createElement('div');
-  const life = document.createElement('div');
-  const name = document.createElement('div');
-  const img = document.createElement('img');
+  return el;
+}
 
-  player.classList.add(playerClass);
-  progressBar.classList.add('progressbar');
-  character.classList.add('character');
-  life.classList.add('life');
-  name.classList.add('name');
+function createPlayer(playerObj) {
+  const player = createElement('div', 'player'+playerObj.player)
+  const progressBar = createElement('div', 'progressbar');
+  const character = createElement('div', 'character');
+  const life = createElement('div', 'life');
+  const name = createElement('div', 'name');
+  const img = createElement('img');
 
   life.style.width = playerObj.hp + '%';
   name.innerText = playerObj.name;
-  img.setAttribute('src', playerObj.img);
+  img.src = playerObj.img;
 
   progressBar.appendChild(life);
   progressBar.appendChild(name);
@@ -44,8 +48,8 @@ function createPlayer(playerClass, playerObj) {
   player.appendChild(progressBar);
   player.appendChild(character);
 
-  arenas.appendChild(player);
+  return player;
 }
 
-createPlayer('player1', alex);
-createPlayer('player2', mike);
+arenas.appendChild(createPlayer(player1));
+arenas.appendChild(createPlayer(player2));
